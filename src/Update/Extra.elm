@@ -89,16 +89,31 @@ filter pred f =
         Basics.identity
 
 
-{-| Allows you to update the model in an update pipeline.
+{-| (deprecated) use mapModel
+Allows you to update the model in an update pipeline.
 
 For example
 
     update msg model = model ! []
       |> updateModel \model -> { model | a = 1 }
       |> updateModel \model -> { model | b = 2 }
+
 -}
 updateModel : (model -> model) -> ( model, Cmd msg ) -> ( model, Cmd msg )
-updateModel f ( model, cmd ) =
+updateModel = mapModel
+
+
+{-| Allows you to update the model in an update pipeline.
+
+For example
+
+    update msg model = model ! []
+      |> mapModel \model -> { model | a = 1 }
+      |> mapModel \model -> { model | b = 2 }
+
+-}
+mapModel : (model -> model) -> ( model, Cmd msg ) -> ( model, Cmd msg )
+mapModel f ( model, cmd ) =
     ( f model, cmd )
 
 
